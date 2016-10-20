@@ -2,14 +2,40 @@
 public void setup() 
 {
   //your code here
+  Floater flyer = new SpaceShip();
 }
 public void draw() 
 {
   //your code here
+  flyer.move();
+  flyer.show();
 }
-class SpaceShip //extends Floater  
+/*public void keypPressed(){
+  if(key == 'a')
+
+}*/
+class SpaceShip extends Floater  
 {   
     //your code here
+    public Spaceship(){
+    corners = 5;
+    int[] xS = {-8, 10, -8, -5, -5};
+    int[] yS = { 8,  0, -8, -4,  4};
+    xCorners = xS;
+    yCorners = yS;
+    }
+     public void setX(int myCenterX){myCenterX= x;}; 
+     public int getX(){return myCenterX;};
+     public void setY(int myCenterY){myCenterY= y;};
+     public int getY(){return myY;};
+     public void setDirectionX(double x){myDirectionX = x;};
+     public double getDirectionX(){return myDirectionX;};
+     public void setDirectionY(double y){myDirectionY = y;};
+     public double getDirectionY(){return myDirectionY;};   
+     public void setPointDirection(int degrees){myPointDirection = degrees;};
+     public double getPointDirection(){myPointDirection;};
+
+    
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
