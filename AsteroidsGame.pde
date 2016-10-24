@@ -1,39 +1,61 @@
 //your variable declarations here
+SpaceShip flyer = new SpaceShip();
 public void setup() 
 {
-  //your code here
-  Floater flyer = new SpaceShip();
+  //your code here 
+  size(400, 400);
+  flyer.setX(200);
+  flyer.setY(200);
 }
 public void draw() 
 {
   //your code here
-  flyer.move();
+  background(255);
   flyer.show();
+  flyer.move();
+  //flyer.accelerate(0);
+  //flyer.rotate(0);
 }
-/*public void keypPressed(){
-  if(key == 'a')
+public void keyPressed(){
+  if(keyCode == 70) //f
+    flyer.accelerate(.5);
+  else if(keyCode == 71) //g
+    flyer.accelerate(-.5);
+  //if(keyCode== 87) //w
+  //  flyer.setX(200);
+  if(keyCode==65) //a
+    flyer.rotate(-5);
+  if(keyCode==68) //d
+    flyer.rotate(5);
+  if(key == 32){  //spacebar
+    flyer.accelerate(0);
+    flyer.setX((int)(Math.random()*360)+20);
+    flyer.setY((int)(Math.random()*360)+20);
+    flyer.setPointDirection((int)(Math.random()*360));
+  }
+}
 
-}*/
+
 class SpaceShip extends Floater  
 {   
     //your code here
-    public Spaceship(){
+    public SpaceShip(){
     corners = 5;
     int[] xS = {-8, 10, -8, -5, -5};
     int[] yS = { 8,  0, -8, -4,  4};
     xCorners = xS;
     yCorners = yS;
     }
-     public void setX(int myCenterX){myCenterX= x;}; 
-     public int getX(){return myCenterX;};
-     public void setY(int myCenterY){myCenterY= y;};
-     public int getY(){return myY;};
+     public void setX(int x){myCenterX= x;}; 
+     public int getX(){return (int)myCenterX;};
+     public void setY(int y){myCenterY= y;};
+     public int getY(){return (int)myCenterY;};
      public void setDirectionX(double x){myDirectionX = x;};
      public double getDirectionX(){return myDirectionX;};
      public void setDirectionY(double y){myDirectionY = y;};
      public double getDirectionY(){return myDirectionY;};   
      public void setPointDirection(int degrees){myPointDirection = degrees;};
-     public double getPointDirection(){myPointDirection;};
+     public double getPointDirection(){return (int)myPointDirection;};
 
     
 }
