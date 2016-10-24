@@ -17,18 +17,15 @@ public void draw()
   //flyer.rotate(0);
 }
 public void keyPressed(){
-  if(keyCode == 70) //f
+  if(keyCode== 87) //w
     flyer.accelerate(.5);
-  else if(keyCode == 71) //g
-    flyer.accelerate(-.5);
-  //if(keyCode== 87) //w
-  //  flyer.setX(200);
   if(keyCode==65) //a
     flyer.rotate(-5);
   if(keyCode==68) //d
     flyer.rotate(5);
   if(key == 32){  //spacebar
-    flyer.accelerate(0);
+    
+    flyer.myCenterY = flyer.myCenterY;
     flyer.setX((int)(Math.random()*360)+20);
     flyer.setY((int)(Math.random()*360)+20);
     flyer.setPointDirection((int)(Math.random()*360));
