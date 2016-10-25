@@ -1,37 +1,54 @@
 //your variable declarations here
 SpaceShip flyer = new SpaceShip();
+Star [] night = new Star[200];
+public int boulderX=700;
+public int boulderY=700;
 public void setup() 
 {
   //your code here 
   size(400, 400);
   flyer.setX(200);
   flyer.setY(200);
+  for(int i=0; i<night.length; i++){
+    night[i]= new Star();
+  }
 }
 public void draw() 
 {
   //your code here
-  background(255);
+  background(0); 
+  for(int i=0; i<night.length; i++){
+    night[i].change();
+    night[i].show();
+  }
   flyer.show();
   flyer.move();
   //flyer.accelerate(0);
   //flyer.rotate(0);
+  boulderX--;
+  boulderY--;
+  ellipse(boulderX, boulderY, 20,20);
 }
 public void keyPressed(){
+
   if(keyCode== 87) //w
     flyer.accelerate(.5);
+  else if(keyCode==83)
+    flyer.accelerate(-.5);
   if(keyCode==65) //a
     flyer.rotate(-5);
   if(keyCode==68) //d
     flyer.rotate(5);
-  if(key == 32){  //spacebar
-    
-    flyer.myCenterY = flyer.myCenterY;
+  if(keyCode==90) //s
+    flyer.rotate(180);
+  if(keyCode == 70){  //f
     flyer.setX((int)(Math.random()*360)+20);
     flyer.setY((int)(Math.random()*360)+20);
+    flyer.setDirectionX(0);
+    flyer.setDirectionY(0);
     flyer.setPointDirection((int)(Math.random()*360));
   }
 }
-
 
 class SpaceShip extends Floater  
 {   
@@ -42,6 +59,7 @@ class SpaceShip extends Floater
     int[] yS = { 8,  0, -8, -4,  4};
     xCorners = xS;
     yCorners = yS;
+    myColor = color(150, 160, 230);
     }
      public void setX(int x){myCenterX= x;}; 
      public int getX(){return (int)myCenterX;};
@@ -133,3 +151,34 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   }   
 } 
 
+class Star{
+  private int myX, myY, myColorStar;
+  private boolean counter;
+    Star(){
+      myX= ((int)(Math.random()*380)+10);
+      myY= ((int)(Math.random()*380)+10);
+    }
+    public void change(){
+      if (myColorStar==255){
+        counter=true;
+      }else if(myColorStar==30){
+        counter=false;
+      }
+      if(counter==true){
+      myColorStar--;
+      }else{
+      myColorStar++;
+      }
+      myX++;
+      myY++;
+      if(myX==403)
+        myX=-3;
+      if(myY==403)
+        myY=-3;
+    }
+    public void show(){
+      noStroke();
+      fill(myColorStar);
+      ellipse(myX, myY, 2, 2);
+    }
+}
