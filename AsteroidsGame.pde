@@ -20,6 +20,7 @@ public void draw()
   for(int i=0; i<night.length; i++){
     night[i].change();
     night[i].show();
+    night[i].follow();
   }
   flyer.show();
   flyer.move();
@@ -31,15 +32,9 @@ public void keyPressed(){
 
   if(keyCode== 87){ //w
     flyer.accelerate(.5); 
-    for(int i=0; i<night.length; i++){
-      night[i].starAccelerate(.5);
-    }
   }
   else if(keyCode==83)
     flyer.accelerate(-.5);
-    for(int i=0; i<night.length; i++){
-      night[i].starAccelerate(-.5);
-    }
   if(keyCode==65) //a
     flyer.rotate(-5);
   if(keyCode==68) //d
@@ -156,11 +151,11 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
   }   
 } 
 
-class Star{
-  private int myStarX, myStarY, myColorStar;
-  private boolean counter;  
-  private double myStarDirectionX, myStarDirectionY; //holds x and y coordinates of the vector for direction of travel   
-  private double myStarPointDirection, starAccelerate;
+class Star extends SpaceShip{
+  /*  private int myStarX, myStarY, myColorStar;
+    private boolean counter;  
+    private double myStarDirectionX, myStarDirectionY; //holds x and y coordinates of the vector for direction of travel   
+    private double myStarPointDirection, starAccelerate;
     Star(){
       myStarX= ((int)(Math.random()*380)+10);
       myStarY= ((int)(Math.random()*380)+10);
@@ -225,6 +220,53 @@ class Star{
     //change coordinates of direction of travel    
     myStarDirectionX += ((dAmount) * Math.cos(dRadians));    
     myStarDirectionY += ((dAmount) * Math.sin(dRadians));       
-  }   
-      
+  }*/
+  private int myStarX, myStarY, myColorStar;
+  private boolean counter;  
+  Star(){
+      myStarX= ((int)(Math.random()*380)+10);
+      myStarY= ((int)(Math.random()*380)+10);
+    }
+    public void change(){
+      if (myColorStar==255){
+        counter=true;
+      }else if(myColorStar==70){
+        counter=false;
+      }
+      if(counter==true){
+      myColorStar--;
+      }else{
+      myColorStar++;
+      }
+    }
+     public void follow(){
+         myStarX += myDirectionX;    
+         myStarY += myDirectionY;   
+
+        //wrap around screen    
+        if(myStarX >width+3)
+        {     
+          myStarX = -3;    
+        }    
+        else if (myStarX<-3)
+        {     
+          myStarX = width+3;    
+        }    
+        if(myStarY >height+3)
+        {    
+          myStarY = -3;    
+        }   
+        else if (myStarY < -3)
+        {     
+          myStarY = height+3;    
+        }     
+    }
+    public void show(){
+      noStroke();
+      fill(myColorStar);
+      ellipse(myStarX, myStarY, 2, 2);
+    }
+
+
+
 }
