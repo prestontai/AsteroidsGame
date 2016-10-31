@@ -27,6 +27,13 @@ public void draw()
   boulderX--;
   boulderY--;
   ellipse(boulderX, boulderY, 20,20);
+
+  for(int i=0; i<night.length; i++){
+    night[i].setStarDirectionX(.5);
+    //night[i].setStarDirectionX(.5);
+    night[i].setStarDirectionY(.5);
+    //night[i].setStarDirectionY(.5);
+  }
 }
 public void keyPressed(){
 
@@ -150,9 +157,12 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
+public class Asteroids{
+ // super();
+}
 
-class Star extends SpaceShip{
-  /*  private int myStarX, myStarY, myColorStar;
+class Star extends Floater{
+    /*private int myStarX, myStarY, myColorStar;
     private boolean counter;  
     private double myStarDirectionX, myStarDirectionY; //holds x and y coordinates of the vector for direction of travel   
     private double myStarPointDirection, starAccelerate;
@@ -199,7 +209,6 @@ class Star extends SpaceShip{
       fill(myColorStar);
       ellipse(myStarX, myStarY, 2, 2);
         
-
     }
     public void setStarX(int x){myStarX= x;}; 
     public int getStarX(){return (int)myStarX;};
@@ -221,11 +230,15 @@ class Star extends SpaceShip{
     myStarDirectionX += ((dAmount) * Math.cos(dRadians));    
     myStarDirectionY += ((dAmount) * Math.sin(dRadians));       
   }*/
-  private int myStarX, myStarY, myColorStar;
+
+  private double myStarX, myStarY;
+  private int myColorStar;
   private boolean counter;  
   Star(){
       myStarX= ((int)(Math.random()*380)+10);
       myStarY= ((int)(Math.random()*380)+10);
+      myDirectionX=0;
+      myDirectionY=0;
     }
     public void change(){
       if (myColorStar==255){
@@ -264,9 +277,16 @@ class Star extends SpaceShip{
     public void show(){
       noStroke();
       fill(myColorStar);
-      ellipse(myStarX, myStarY, 2, 2);
+      ellipse((float)myStarX, (float)myStarY, 2, 2);
     }
-
-
-
+     public void setX(int x){myCenterX= x;}; 
+     public int getX(){return (int)myCenterX;};
+     public void setY(int y){myCenterY= y;};
+     public int getY(){return (int)myCenterY;};
+     public void setDirectionX(double x){myDirectionX = x;};
+     public double getDirectionX(){return myDirectionX;};
+     public void setDirectionY(double y){myDirectionY = y;};
+     public double getDirectionY(){return myDirectionY;};   
+     public void setPointDirection(int degrees){myPointDirection = degrees;};
+     public double getPointDirection(){return (int)myPointDirection;};
 }
