@@ -18,9 +18,8 @@ public void draw()
   //your code here
   background(0); 
   for(int i=0; i<night.length; i++){
-    night[i].change();
+    night[i].move();
     night[i].show();
-    night[i].follow();
   }
   flyer.show();
   flyer.move();
@@ -28,20 +27,20 @@ public void draw()
   boulderY--;
   ellipse(boulderX, boulderY, 20,20);
 
-  for(int i=0; i<night.length; i++){
-    night[i].setStarDirectionX(.5);
-    //night[i].setStarDirectionX(.5);
-    night[i].setStarDirectionY(.5);
-    //night[i].setStarDirectionY(.5);
-  }
 }
 public void keyPressed(){
 
   if(keyCode== 87){ //w
-    flyer.accelerate(.5); 
+    flyer.accelerate(.5);
+    for(int i=0; i<night.length; i++){
+      night[i].accelerate(-.5);
+    }
   }
   else if(keyCode==83)
     flyer.accelerate(-.5);
+    for(int i=0; i<night.length; i++){
+      night[i].accelerate(.5);
+    }
   if(keyCode==65) //a
     flyer.rotate(-5);
   if(keyCode==68) //d
@@ -157,80 +156,28 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-public class Asteroids{
- // super();
+public class Asteroids extends Floater{
+    int rotSpeed;
+    public Asteroids(){
+    corners = 6;
+    int[] xS = { -6, 0, 5, 5, 0, -6};
+    int[] yS = {  2, 5, 3, -3, -5, -2};
+    rotSpeed = (int)(Math.random()*PI*2);
+    xCorners = xS;
+    yCorners = yS;
+    myColor = color(5, 20, 25);
+    }
+
+    public void move(){
+      super.move();
+      rotate(rotSpeed);
+    }
+    public void show(){
+      super.show();
+    }
 }
 
 class Star extends Floater{
-    /*private int myStarX, myStarY, myColorStar;
-    private boolean counter;  
-    private double myStarDirectionX, myStarDirectionY; //holds x and y coordinates of the vector for direction of travel   
-    private double myStarPointDirection, starAccelerate;
-    Star(){
-      myStarX= ((int)(Math.random()*380)+10);
-      myStarY= ((int)(Math.random()*380)+10);
-    }
-    public void change(){
-      if (myColorStar==255){
-        counter=true;
-      }else if(myColorStar==70){
-        counter=false;
-      }
-      if(counter==true){
-      myColorStar--;
-      }else{
-      myColorStar++;
-      }
-    }
-    public void follow(){
-         myStarX += myStarDirectionX;    
-         myStarY += myStarDirectionY;     
-
-        //wrap around screen    
-        if(myStarX >width+3)
-        {     
-          myStarX = -3;    
-        }    
-        else if (myStarX<-3)
-        {     
-          myStarX = width+3;    
-        }    
-        if(myStarY >height+3)
-        {    
-          myStarY = -3;    
-        }   
-        else if (myStarY < -3)
-        {     
-          myStarY = height+3;    
-        }     
-    }
-    public void show(){
-      noStroke();
-      fill(myColorStar);
-      ellipse(myStarX, myStarY, 2, 2);
-        
-    }
-    public void setStarX(int x){myStarX= x;}; 
-    public int getStarX(){return (int)myStarX;};
-    public void setStarY(int y){myStarY= y;};
-    public int getStarY(){return (int)myStarY;};
-
-    public void setStarDirectionX(double x){myStarDirectionX = x;};
-    public double getStarDirectionX(){return myStarDirectionX;};
-    public void setStarDirectionY(double y){myStarDirectionY = y;};
-    public double getStarDirectionY(){return myStarDirectionY;};   
-    public void setStarPointDirection(int degrees){myStarPointDirection = degrees;};
-    public double getStarPointDirection(){return (int)myStarPointDirection;};
-    
-    public void starAccelerate (double dAmount)   
-  {          
-    //convert the current direction the floater is pointing to radians    
-    double dRadians =myStarPointDirection*(Math.PI/180);     
-    //change coordinates of direction of travel    
-    myStarDirectionX += ((dAmount) * Math.cos(dRadians));    
-    myStarDirectionY += ((dAmount) * Math.sin(dRadians));       
-  }*/
-
   private double myStarX, myStarY;
   private int myColorStar;
   private boolean counter;  
@@ -240,7 +187,7 @@ class Star extends Floater{
       myDirectionX=0;
       myDirectionY=0;
     }
-    public void change(){
+    public void move(){
       if (myColorStar==255){
         counter=true;
       }else if(myColorStar==70){
@@ -250,11 +197,9 @@ class Star extends Floater{
       myColorStar--;
       }else{
       myColorStar++;
-      }
-    }
-     public void follow(){
-         myStarX += myDirectionX;    
-         myStarY += myDirectionY;   
+      } 
+        myStarX += myDirectionX;    
+        myStarY += myDirectionY;   
 
         //wrap around screen    
         if(myStarX >width+3)
@@ -272,21 +217,23 @@ class Star extends Floater{
         else if (myStarY < -3)
         {     
           myStarY = height+3;    
-        }     
+        }
+        super.show();
     }
     public void show(){
       noStroke();
       fill(myColorStar);
       ellipse((float)myStarX, (float)myStarY, 2, 2);
+      super.move();
     }
-     public void setX(int x){myCenterX= x;}; 
-     public int getX(){return (int)myCenterX;};
-     public void setY(int y){myCenterY= y;};
-     public int getY(){return (int)myCenterY;};
+     /*public void setX(int x){myStarX= x;}; 
+     public int getX(){return (int)myStarX;};
+     public void setY(int y){myStarY= y;};
+     public int getY(){return (int)myStarY;};
      public void setDirectionX(double x){myDirectionX = x;};
      public double getDirectionX(){return myDirectionX;};
      public void setDirectionY(double y){myDirectionY = y;};
      public double getDirectionY(){return myDirectionY;};   
      public void setPointDirection(int degrees){myPointDirection = degrees;};
-     public double getPointDirection(){return (int)myPointDirection;};
+     public double getPointDirection(){return (int)myPointDirection;};*/
 }
