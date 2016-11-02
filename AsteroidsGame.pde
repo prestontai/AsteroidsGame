@@ -1,8 +1,8 @@
 //your variable declarations here
 SpaceShip flyer = new SpaceShip();
 Star [] night = new Star[200];
-public int boulderX=700;
-public int boulderY=700;
+Asteroids [] field = new Asteroids[20];
+
 public void setup() 
 {
   //your code here 
@@ -11,6 +11,9 @@ public void setup()
   flyer.setY(200);
   for(int i=0; i<night.length; i++){
     night[i]= new Star();
+  }
+  for(int i=0; i<field.length; i++){
+    field[i]= new Asteroids();
   }
 }
 public void draw() 
@@ -21,11 +24,12 @@ public void draw()
     night[i].move();
     night[i].show();
   }
+  for(int i=0; i<field.length; i++){
+    field[i].move();
+    field[i].show();
+  }
   flyer.show();
   flyer.move();
-  boulderX--;
-  boulderY--;
-  ellipse(boulderX, boulderY, 20,20);
 
 }
 public void keyPressed(){
@@ -76,9 +80,78 @@ class SpaceShip extends Floater
      public void setDirectionY(double y){myDirectionY = y;};
      public double getDirectionY(){return myDirectionY;};   
      public void setPointDirection(int degrees){myPointDirection = degrees;};
-     public double getPointDirection(){return (int)myPointDirection;};
-
+     public double getPointDirection(){return (int)myPointDirection;};   
+}
+public class Asteroids extends Floater{
+    int rotSpeed;
+    public Asteroids(){
+    corners = 6;
+    int[] xS = { -6, 0, 5, 5, 0, -6};
+    int[] yS = {  2, 5, 3, -3, -5, -2};
+    rotSpeed = (int)(Math.random()*PI*2);
+    xCorners = xS;
+    yCorners = yS;
+    myColor = color(170, 180, 200);
+    }
     
+    public void show(){
+      noStroke();
+      super.show();
+    }
+    public void move(){
+      super.move();
+      rotate(rotSpeed);
+    }
+   
+    public void setX(int x){myCenterX= x;}; 
+    public int getX(){return (int)myCenterX;};
+    public void setY(int y){myCenterY= y;};
+    public int getY(){return (int)myCenterY;};
+    public void setDirectionX(double x){myDirectionX = x;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double y){myDirectionY = y;};
+    public double getDirectionY(){return myDirectionY;};   
+    public void setPointDirection(int degrees){myPointDirection = degrees;};
+    public double getPointDirection(){return (int)myPointDirection;};
+}
+
+class Star extends Floater{
+  private double myStarX, myStarY;
+  private int myColorStar;
+  private boolean counter;  
+  Star(){
+      myStarX= ((int)(Math.random()*380)+10);
+      myStarY= ((int)(Math.random()*380)+10);
+    }
+    public void move(){
+      if (myColorStar==255){
+        counter=true;
+      }else if(myColorStar==70){
+        counter=false;
+      }
+      if(counter==true){
+      myColorStar--;
+      }else{
+      myColorStar++;
+      } 
+        super.move();
+    }
+    public void show(){
+      noStroke();
+      fill(myColorStar);
+      ellipse((float)myStarX, (float)myStarY, 2, 2);
+      super.show();
+    }
+    public void setX(int x){myCenterX= x;}; 
+    public int getX(){return (int)myCenterX;};
+    public void setY(int y){myCenterY= y;};
+    public int getY(){return (int)myCenterY;};
+    public void setDirectionX(double x){myDirectionX = x;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double y){myDirectionY = y;};
+    public double getDirectionY(){return myDirectionY;};   
+    public void setPointDirection(int degrees){myPointDirection = degrees;};
+    public double getPointDirection(){return (int)myPointDirection;};
 }
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
@@ -156,84 +229,3 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
-public class Asteroids extends Floater{
-    int rotSpeed;
-    public Asteroids(){
-    corners = 6;
-    int[] xS = { -6, 0, 5, 5, 0, -6};
-    int[] yS = {  2, 5, 3, -3, -5, -2};
-    rotSpeed = (int)(Math.random()*PI*2);
-    xCorners = xS;
-    yCorners = yS;
-    myColor = color(5, 20, 25);
-    }
-
-    public void move(){
-      super.move();
-      rotate(rotSpeed);
-    }
-    public void show(){
-      super.show();
-    }
-}
-
-class Star extends Floater{
-  private double myStarX, myStarY;
-  private int myColorStar;
-  private boolean counter;  
-  Star(){
-      myStarX= ((int)(Math.random()*380)+10);
-      myStarY= ((int)(Math.random()*380)+10);
-      myDirectionX=0;
-      myDirectionY=0;
-    }
-    public void move(){
-      if (myColorStar==255){
-        counter=true;
-      }else if(myColorStar==70){
-        counter=false;
-      }
-      if(counter==true){
-      myColorStar--;
-      }else{
-      myColorStar++;
-      } 
-        myStarX += myDirectionX;    
-        myStarY += myDirectionY;   
-
-        //wrap around screen    
-        if(myStarX >width+3)
-        {     
-          myStarX = -3;    
-        }    
-        else if (myStarX<-3)
-        {     
-          myStarX = width+3;    
-        }    
-        if(myStarY >height+3)
-        {    
-          myStarY = -3;    
-        }   
-        else if (myStarY < -3)
-        {     
-          myStarY = height+3;    
-        }
-        super.show();
-    }
-    public void show(){
-      noStroke();
-      fill(myColorStar);
-      ellipse((float)myStarX, (float)myStarY, 2, 2);
-      super.move();
-    }
-     /*public void setX(int x){myStarX= x;}; 
-     public int getX(){return (int)myStarX;};
-     public void setY(int y){myStarY= y;};
-     public int getY(){return (int)myStarY;};
-     public void setDirectionX(double x){myDirectionX = x;};
-     public double getDirectionX(){return myDirectionX;};
-     public void setDirectionY(double y){myDirectionY = y;};
-     public double getDirectionY(){return myDirectionY;};   
-     public void setPointDirection(int degrees){myPointDirection = degrees;};
-     public double getPointDirection(){return (int)myPointDirection;};*/
-}
