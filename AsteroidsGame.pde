@@ -1,19 +1,21 @@
 //your variable declarations here
 SpaceShip flyer = new SpaceShip();
-Star [] night = new Star[200];
-Asteroids [] field = new Asteroids[20];
+Star [] night = new Star[400];
+Asteroids [] field = new Asteroids[35];
 
 public void setup() 
 {
   //your code here 
-  size(400, 400);
-  flyer.setX(200);
-  flyer.setY(200);
+  size(600, 600);
+  flyer.setX(300);
+  flyer.setY(300);
   for(int i=0; i<night.length; i++){
     night[i]= new Star();
   }
   for(int i=0; i<field.length; i++){
     field[i]= new Asteroids();
+    field[i].setX((int)(Math.random()*560)+20);
+    field[i].setY((int)(Math.random()*560)+20);
   }
 }
 public void draw() 
@@ -30,20 +32,19 @@ public void draw()
   }
   flyer.show();
   flyer.move();
-
 }
 public void keyPressed(){
 
   if(keyCode== 87){ //w
-    flyer.accelerate(.5);
-    for(int i=0; i<night.length; i++){
-      night[i].accelerate(-.5);
+    //flyer.accelerate(.5);
+    for(int i=0; i<field.length; i++){
+      field[i].accelerate(.5);
     }
   }
   else if(keyCode==83)
-    flyer.accelerate(-.5);
-    for(int i=0; i<night.length; i++){
-      night[i].accelerate(.5);
+    //flyer.accelerate(-.5);
+    for(int i=0; i<field.length; i++){
+      field[i].accelerate(-.5);
     }
   if(keyCode==65) //a
     flyer.rotate(-5);
@@ -86,8 +87,8 @@ public class Asteroids extends Floater{
     int rotSpeed;
     public Asteroids(){
     corners = 6;
-    int[] xS = { -6, 0, 5, 5, 0, -6};
-    int[] yS = {  2, 5, 3, -3, -5, -2};
+    int[] xS = { -12, 0, 10, 10, 0, -12};
+    int[] yS = {  4, 10, 6, -6, -10, -4};
     rotSpeed = (int)(Math.random()*PI*2);
     xCorners = xS;
     yCorners = yS;
@@ -101,6 +102,8 @@ public class Asteroids extends Floater{
     public void move(){
       super.move();
       rotate(rotSpeed);
+      setDirectionX(flyer.getDirectionX());
+      setDirectionY(flyer.getDirectionY());     
     }
    
     public void setX(int x){myCenterX= x;}; 
@@ -120,8 +123,8 @@ class Star extends Floater{
   private int myColorStar;
   private boolean counter;  
   Star(){
-      myStarX= ((int)(Math.random()*380)+10);
-      myStarY= ((int)(Math.random()*380)+10);
+      myStarX= ((int)(Math.random()*580)+10);
+      myStarY= ((int)(Math.random()*580)+10);
     }
     public void move(){
       if (myColorStar==255){
