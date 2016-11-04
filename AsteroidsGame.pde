@@ -1,5 +1,6 @@
 //your variable declarations here
 SpaceShip flyer = new SpaceShip();
+SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
 Asteroids [] field = new Asteroids[35];
 
@@ -9,6 +10,8 @@ public void setup()
   size(600, 600);
   flyer.setX(300);
   flyer.setY(300);
+  ghost.setX(300);
+  ghost.setY(300);
   for(int i=0; i<night.length; i++){
     night[i]= new Star();
   }
@@ -29,35 +32,46 @@ public void draw()
   for(int i=0; i<field.length; i++){
     field[i].move();
     field[i].show();
+    field[i].setDirectionX(-ghost.getDirectionX());
+    field[i].setDirectionY(-ghost.getDirectionY());
   }
   flyer.show();
+  flyer.setDirectionY(0);
+  flyer.setDirectionX(0);
   flyer.move();
+  //ghost.show();
+  ghost.move();
 }
 public void keyPressed(){
 
   if(keyCode== 87){ //w
-    //flyer.accelerate(.5);
-    for(int i=0; i<field.length; i++){
-      field[i].accelerate(.5);
-    }
+     ghost.accelerate(.5);
   }
   else if(keyCode==83)
-    //flyer.accelerate(-.5);
-    for(int i=0; i<field.length; i++){
-      field[i].accelerate(-.5);
-    }
-  if(keyCode==65) //a
-    flyer.rotate(-5);
-  if(keyCode==68) //d
-    flyer.rotate(5);
-  if(keyCode==90) //s
+    ghost.accelerate(-.5);
+  if(keyCode==65){ //a
+    ghost.rotate(-7);
+    flyer.rotate(-7);
+  }
+  if(keyCode==68){//d
+    ghost.rotate(7);
+    flyer.rotate(7); 
+  }
+  if(keyCode==90){ //z
     flyer.rotate(180);
+    ghost.rotate(180);
+  }
   if(keyCode == 70){  //f
-    flyer.setX((int)(Math.random()*360)+20);
+    /*flyer.setX((int)(Math.random()*360)+20);
     flyer.setY((int)(Math.random()*360)+20);
     flyer.setDirectionX(0);
     flyer.setDirectionY(0);
-    flyer.setPointDirection((int)(Math.random()*360));
+    flyer.setPointDirection((int)(Math.random()*360));*/
+    ghost.accelerate(20);
+  }
+  if(keyCode == 71){  //g  sudden stop
+    ghost.setDirectionX(0);
+    ghost.setDirectionY(0);
   }
 }
 
@@ -102,8 +116,6 @@ public class Asteroids extends Floater{
     public void move(){
       super.move();
       rotate(rotSpeed);
-      setDirectionX(flyer.getDirectionX());
-      setDirectionY(flyer.getDirectionY());     
     }
    
     public void setX(int x){myCenterX= x;}; 
