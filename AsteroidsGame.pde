@@ -20,6 +20,13 @@ public void setup()
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
   }
+  ArrayList <Asteroids> field;
+  field = new ArrayList <Asteroids>();
+  for(int i=0; i< field.size(); i++){
+     field[i].move();
+     field[i].show();
+  }
+
 }
 public void draw() 
 {
