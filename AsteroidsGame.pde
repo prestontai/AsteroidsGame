@@ -2,7 +2,8 @@
 SpaceShip flyer = new SpaceShip();
 SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
-Asteroids [] field = new Asteroids[35];
+//Asteroids [] field = new Asteroids[35];
+ArrayList <Asteroids> field = new field <Asteroids>();
 
 public void setup() 
 {
@@ -15,16 +16,13 @@ public void setup()
   for(int i=0; i<night.length; i++){
     night[i]= new Star();
   }
-  for(int i=0; i<field.length; i++){
+  /*for(int i=0; i<field.length; i++){
     field[i]= new Asteroids();
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
-  }
-  ArrayList <Asteroids> field;
-  field = new ArrayList <Asteroids>();
-  for(int i=0; i< field.size(); i++){
-     field[i].move();
-     field[i].show();
+  }*/
+  for(int i=0; i<35; i++){
+    field.add(i, cnew Asteroids());
   }
 
 }
@@ -36,12 +34,12 @@ public void draw()
     night[i].move();
     night[i].show();
   }
-  for(int i=0; i<field.length; i++){
+  /*for(int i=0; i<field.length; i++){
     field[i].move();
     field[i].show();
     field[i].setDirectionX(-ghost.getDirectionX());
     field[i].setDirectionY(-ghost.getDirectionY());
-  }
+  }*/
   flyer.show();
   flyer.setDirectionY(0);
   flyer.setDirectionX(0);
