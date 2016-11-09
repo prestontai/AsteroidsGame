@@ -2,7 +2,11 @@
 SpaceShip flyer = new SpaceShip();
 SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
-Asteroids [] field = new Asteroids[35];
+//Asteroids [] field = new Asteroids[35];
+ArrayList <Asteroids> field = new ArrayList <Asteroids>();
+public int asteroidSpawn = 0;
+public boolean counterAsteroid;
+public double distance;
 
 public void setup() 
 {
@@ -15,18 +19,17 @@ public void setup()
   for(int i=0; i<night.length; i++){
     night[i]= new Star();
   }
-  for(int i=0; i<field.length; i++){
+  /*for(int i=0; i<field.length; i++){
     field[i]= new Asteroids();
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
+  }*/
+  for(int i=0; i<35; i++){
+    field.add((i), new Asteroids());
+    field.get(i).setX((int)(Math.random()*560)+20);
+    field.get(i).setY((int)(Math.random()*560)+20);
   }
-  ArrayList <Asteroids> field;
-  field = new ArrayList <Asteroids>();
-  for(int i=0; i< field.size(); i++){
-     field[i].move();
-     field[i].show();
-  }
-
+//(int)(asteroidSpawn/20)
 }
 public void draw() 
 {
@@ -36,11 +39,16 @@ public void draw()
     night[i].move();
     night[i].show();
   }
-  for(int i=0; i<field.length; i++){
-    field[i].move();
-    field[i].show();
-    field[i].setDirectionX(-ghost.getDirectionX());
-    field[i].setDirectionY(-ghost.getDirectionY());
+  for(int i=0; i<field.size(); i++){
+    field.get(i).move();
+    field.get(i).show();
+    field.get(i).setDirectionX(-ghost.getDirectionX());
+    field.get(i).setDirectionY(-ghost.getDirectionY());
+    distance =  Math.hypot(field.get(i).xCorners-300, field.get(i).yCorners-300);
+    if(distance<20){
+      field.remove(i);
+      i--;
+    }
   }
   flyer.show();
   flyer.setDirectionY(0);
@@ -48,6 +56,17 @@ public void draw()
   flyer.move();
   //ghost.show();
   ghost.move();
+
+  if (asteroidSpawn==1000){
+        counterAsteroid=true;
+    }else if(asteroidSpawn==0){
+        counterAsteroid=false;
+  }
+  if(counterAsteroid==true){
+      asteroidSpawn--;
+    }else{
+      asteroidSpawn++;
+  } 
 }
 public void keyPressed(){
 
