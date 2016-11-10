@@ -24,11 +24,15 @@ public void setup()
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
   }*/
-  for(int i=0; i<35; i++){
+  for(int i=0; i<2000; i++){
     field.add((i), new Asteroids());
     field.get(i).setX((int)(Math.random()*560)+20);
     field.get(i).setY((int)(Math.random()*560)+20);
+    if(counterAsteroid==true){
+      field.add((i), new Asteroids());
+    }
   }
+  
 //(int)(asteroidSpawn/20)
 }
 public void draw() 
@@ -44,11 +48,14 @@ public void draw()
     field.get(i).show();
     field.get(i).setDirectionX(-ghost.getDirectionX());
     field.get(i).setDirectionY(-ghost.getDirectionY());
-    distance =  Math.hypot(field.get(i).xCorners-300, field.get(i).yCorners-300);
-    if(distance<20){
+    distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300); 
+    if(distance<20){                    //removing asteroids on contact
       field.remove(i);
       i--;
     }
+    /*if(counterAsteroid==true){
+      field.add((i), new Asteroids);
+    }*/
   }
   flyer.show();
   flyer.setDirectionY(0);
@@ -57,7 +64,7 @@ public void draw()
   //ghost.show();
   ghost.move();
 
-  if (asteroidSpawn==1000){
+  if (asteroidSpawn==180){
         counterAsteroid=true;
     }else if(asteroidSpawn==0){
         counterAsteroid=false;
