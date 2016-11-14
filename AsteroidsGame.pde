@@ -24,7 +24,7 @@ public void setup()
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
   }*/
-  for(int i=0; i<2000; i++){
+  for(int i=0; i<40; i++){
     field.add((i), new Asteroids());
     field.get(i).setX((int)(Math.random()*560)+20);
     field.get(i).setY((int)(Math.random()*560)+20);
