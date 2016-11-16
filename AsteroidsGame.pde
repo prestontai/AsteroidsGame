@@ -3,7 +3,11 @@ SpaceShip flyer = new SpaceShip();
 SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
-ArrayList <Asteroids> field = new field <Asteroids>();
+ArrayList <Asteroids> field = new ArrayList <Asteroids>();
+ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
+public int asteroidSpawn = 0;
+public boolean counterAsteroid;
+public double distance;
 
 public void setup() 
 {
@@ -21,10 +25,19 @@ public void setup()
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
   }*/
-  for(int i=0; i<35; i++){
-    field.add(i, cnew Asteroids());
+  for(int i=0; i<40; i++){
+    field.add((i), new Asteroids());
+    field.get(i).setX((int)(Math.random()*560)+20);
+    field.get(i).setY((int)(Math.random()*560)+20);
+    if(counterAsteroid==true){
+      field.add((i), new Asteroids());
+    }
   }
-
+  for(int i=0; i<0; i++){
+    //magazine.add((i), new Bullet());
+  }
+  
+//(int)(asteroidSpawn/20)
 }
 public void draw() 
 {
@@ -34,19 +47,49 @@ public void draw()
     night[i].move();
     night[i].show();
   }
-  /*for(int i=0; i<field.length; i++){
-    field[i].move();
-    field[i].show();
-    field[i].setDirectionX(-ghost.getDirectionX());
-    field[i].setDirectionY(-ghost.getDirectionY());
+  for(int i=0; i<field.size(); i++){
+    field.get(i).move();
+    field.get(i).show();
+    field.get(i).setDirectionX(-ghost.getDirectionX());
+    field.get(i).setDirectionY(-ghost.getDirectionY());
+    distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300); 
+    if(distance<20){                    //removing asteroids on contact
+      field.remove(i);
+      i--;
+    }
+    /*if(counterAsteroid==true){
+      field.add((i), new Asteroids);
+    }*/
+  }
+  /*for(int i=0; i<field.size(); i++){
+    field.get(i).move();
+    field.get(i).show();
+    field.get(i).setDirectionX(-ghost.getDirectionX());
+    field.get(i).setDirectionY(-ghost.getDirectionY());
   }*/
+  for(int i=0; i<magazine.size(); i++){
+    magazine.get(i).move();
+    magazine.get(i).show(); 
+  }
   flyer.show();
   flyer.setDirectionY(0);
   flyer.setDirectionX(0);
   flyer.move();
   //ghost.show();
   ghost.move();
+
+  if (asteroidSpawn==180){
+        counterAsteroid=true;
+    }else if(asteroidSpawn==0){
+        counterAsteroid=false;
+  }
+  if(counterAsteroid==true){
+      asteroidSpawn--;
+    }else{
+      asteroidSpawn++;
+  } 
 }
+
 public void keyPressed(){
 
   if(keyCode== 87){ //w
@@ -77,6 +120,9 @@ public void keyPressed(){
   if(keyCode == 71){  //g  sudden stop
     ghost.setDirectionX(0);
     ghost.setDirectionY(0);
+  }
+  if(keyCode == 32){  //spacebar shoot bullets
+    magazine.add(new Bullet());
   }
 }
 
@@ -173,6 +219,37 @@ class Star extends Floater{
     public void setPointDirection(int degrees){myPointDirection = degrees;};
     public double getPointDirection(){return (int)myPointDirection;};
 }
+class Bullet extends Floater{
+  private double myBulletX, myBulletY, dRadians;
+  private int myColorBullet;
+  private boolean counter;  
+  Bullet(SpaceShip flyer){
+      //myBulletX = flyer.getCenterX();
+      //myBulletY = flyer.getCenterY();
+      //dRadians = flyer.getPointDirection()*(Math.PI/180);
+      //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+      //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+    }
+    public void move(){
+     super.move();
+    }
+    public void show(){
+      noStroke();
+      fill(255,0,0);
+      super.show();
+      ellipse(myBulletX, myBulletY, 10, 10);
+    }
+    public void setX(int x){myCenterX= x;}; 
+    public int getX(){return (int)myCenterX;};
+    public void setY(int y){myCenterY= y;};
+    public int getY(){return (int)myCenterY;};
+    public void setDirectionX(double x){myDirectionX = x;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double y){myDirectionY = y;};
+    public double getDirectionY(){return myDirectionY;};   
+    public void setPointDirection(int degrees){myPointDirection = degrees;};
+    public double getPointDirection(){return (int)myPointDirection;};
+}
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
@@ -249,3 +326,4 @@ abstract class Floater //Do NOT modify the Floater class! Make changes in the Sp
     endShape(CLOSE);  
   }   
 } 
+
