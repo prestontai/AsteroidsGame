@@ -4,6 +4,7 @@ SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
 ArrayList <Asteroids> field = new ArrayList <Asteroids>();
+ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 0;
 public boolean counterAsteroid;
 public double distance;
@@ -32,6 +33,9 @@ public void setup()
       field.add((i), new Asteroids());
     }
   }
+  for(int i=0; i<0; i++){
+    //magazine.add((i), new Bullet());
+  }
   
 //(int)(asteroidSpawn/20)
 }
@@ -57,6 +61,16 @@ public void draw()
       field.add((i), new Asteroids);
     }*/
   }
+  /*for(int i=0; i<field.size(); i++){
+    field.get(i).move();
+    field.get(i).show();
+    field.get(i).setDirectionX(-ghost.getDirectionX());
+    field.get(i).setDirectionY(-ghost.getDirectionY());
+  }*/
+  for(int i=0; i<magazine.size(); i++){
+    magazine.get(i).move();
+    magazine.get(i).show(); 
+  }
   flyer.show();
   flyer.setDirectionY(0);
   flyer.setDirectionX(0);
@@ -75,6 +89,7 @@ public void draw()
       asteroidSpawn++;
   } 
 }
+
 public void keyPressed(){
 
   if(keyCode== 87){ //w
@@ -105,6 +120,9 @@ public void keyPressed(){
   if(keyCode == 71){  //g  sudden stop
     ghost.setDirectionX(0);
     ghost.setDirectionY(0);
+  }
+  if(keyCode == 32){  //spacebar shoot bullets
+    magazine.add(new Bullet());
   }
 }
 
@@ -189,6 +207,37 @@ class Star extends Floater{
       fill(myColorStar);
       ellipse((float)myStarX, (float)myStarY, 2, 2);
       super.show();
+    }
+    public void setX(int x){myCenterX= x;}; 
+    public int getX(){return (int)myCenterX;};
+    public void setY(int y){myCenterY= y;};
+    public int getY(){return (int)myCenterY;};
+    public void setDirectionX(double x){myDirectionX = x;};
+    public double getDirectionX(){return myDirectionX;};
+    public void setDirectionY(double y){myDirectionY = y;};
+    public double getDirectionY(){return myDirectionY;};   
+    public void setPointDirection(int degrees){myPointDirection = degrees;};
+    public double getPointDirection(){return (int)myPointDirection;};
+}
+class Bullet extends Floater{
+  private double myBulletX, myBulletY, dRadians;
+  private int myColorBullet;
+  private boolean counter;  
+  Bullet(SpaceShip flyer){
+      //myBulletX = flyer.getCenterX();
+      //myBulletY = flyer.getCenterY();
+      //dRadians = flyer.getPointDirection()*(Math.PI/180);
+      //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+      //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+    }
+    public void move(){
+     super.move();
+    }
+    public void show(){
+      noStroke();
+      fill(255,0,0);
+      super.show();
+      ellipse(myBulletX, myBulletY, 10, 10);
     }
     public void setX(int x){myCenterX= x;}; 
     public int getX(){return (int)myCenterX;};
