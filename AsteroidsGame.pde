@@ -8,6 +8,7 @@ ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 0;
 public boolean counterAsteroid;
 public double distance;
+public double distance2;
 
 public void setup() 
 {
@@ -33,9 +34,11 @@ public void setup()
       field.add((i), new Asteroids());
     }
   }
-  for(int i=0; i<0; i++){
-    //magazine.add((i), new Bullet());
-  }
+  /*for(int i=0; i<0; i++){
+    magazine.add((i), new Bullet());
+    magazine.get(i).setX(350);
+    magazine.get(i).setY(350);
+  }*/
   
 //(int)(asteroidSpawn/20)
 }
@@ -52,8 +55,11 @@ public void draw()
     field.get(i).show();
     field.get(i).setDirectionX(-ghost.getDirectionX());
     field.get(i).setDirectionY(-ghost.getDirectionY());
-    distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300); 
-    if(distance<20){                    //removing asteroids on contact
+    distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300);
+    if(magazine.size()>0){
+    //distance2 = Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX());
+    }
+    if(distance<20 ){    //|| distance2<10                //removing asteroids on contact
       field.remove(i);
       i--;
     }
@@ -69,7 +75,15 @@ public void draw()
   }*/
   for(int i=0; i<magazine.size(); i++){
     magazine.get(i).move();
-    magazine.get(i).show(); 
+    magazine.get(i).show();
+      dRadians = ghost.getPointDirection()*(Math.PI/180);
+      myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+      myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+    /*distance2 =  Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX()); 
+    if(distance2<5){                    //removing asteroids on contact
+      magazine.remove(i);
+      i--; 
+    }*/
   }
   flyer.show();
   flyer.setDirectionY(0);
@@ -122,7 +136,7 @@ public void keyPressed(){
     ghost.setDirectionY(0);
   }
   if(keyCode == 32){  //spacebar shoot bullets
-    magazine.add(new Bullet());
+    magazine.add(0, new Bullet());
   }
 }
 
@@ -185,7 +199,7 @@ class Star extends Floater{
   private double myStarX, myStarY;
   private int myColorStar;
   private boolean counter;  
-  Star(){
+  public Star(){
       myStarX= ((int)(Math.random()*580)+10);
       myStarY= ((int)(Math.random()*580)+10);
     }
@@ -223,21 +237,20 @@ class Bullet extends Floater{
   private double myBulletX, myBulletY, dRadians;
   private int myColorBullet;
   private boolean counter;  
-  Bullet(SpaceShip flyer){
-      //myBulletX = flyer.getCenterX();
-      //myBulletY = flyer.getCenterY();
-      //dRadians = flyer.getPointDirection()*(Math.PI/180);
-      //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
-      //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+  public Bullet(){  //SpaceShip ghost/flyer
+      myBulletX = 350; //flyer.getCenterX();
+      myBulletY = 350; //flyer.getCenterY();
+      dRadians = ghost.getPointDirection()*(Math.PI/180);
+      myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+      myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
     }
     public void move(){
-     super.move();
+      //super.move();
     }
     public void show(){
-      noStroke();
+      //noStroke();
       fill(255,0,0);
-      super.show();
-      ellipse(myBulletX, myBulletY, 10, 10);
+      ellipse((float)myBulletX, (float)myBulletY, 5, 5);
     }
     public void setX(int x){myCenterX= x;}; 
     public int getX(){return (int)myCenterX;};
