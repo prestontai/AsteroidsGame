@@ -4,7 +4,7 @@ SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
 ArrayList <Asteroids> field = new ArrayList <Asteroids>();
-ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
+//ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 0;
 public boolean counterAsteroid;
 public double distance;
@@ -73,7 +73,7 @@ public void draw()
     field.get(i).setDirectionX(-ghost.getDirectionX());
     field.get(i).setDirectionY(-ghost.getDirectionY());
   }*/
-  for(int i=0; i<magazine.size(); i++){
+/*  for(int i=0; i<magazine.size(); i++){
     magazine.get(i).move();
     magazine.get(i).show();
       dRadians = ghost.getPointDirection()*(Math.PI/180);
@@ -83,8 +83,9 @@ public void draw()
     if(distance2<5){                    //removing asteroids on contact
       magazine.remove(i);
       i--; 
-    }*/
-  }
+    }/
+  }*/
+
   flyer.show();
   flyer.setDirectionY(0);
   flyer.setDirectionX(0);
@@ -233,7 +234,7 @@ class Star extends Floater{
     public void setPointDirection(int degrees){myPointDirection = degrees;};
     public double getPointDirection(){return (int)myPointDirection;};
 }
-class Bullet extends Floater{
+/*class Bullet extends Floater{
   private double myBulletX, myBulletY, dRadians;
   private int myColorBullet;
   private boolean counter;  
@@ -262,7 +263,7 @@ class Bullet extends Floater{
     public double getDirectionY(){return myDirectionY;};   
     public void setPointDirection(int degrees){myPointDirection = degrees;};
     public double getPointDirection(){return (int)myPointDirection;};
-}
+}*/
 abstract class Floater //Do NOT modify the Floater class! Make changes in the SpaceShip class 
 {   
   protected int corners;  //the number of corners, a triangular floater has 3   
