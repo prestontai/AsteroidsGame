@@ -4,7 +4,7 @@ SpaceShip ghost = new SpaceShip();
 Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
 ArrayList <Asteroids> field = new ArrayList <Asteroids>();
-//ArrayList <Bullet   > magazine = new ArrayList <Bullet>();
+ArrayList <Bullet > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 0;
 public boolean counterAsteroid;
 public double distance;
@@ -50,15 +50,16 @@ public void draw()
     night[i].move();
     night[i].show();
   }
+
   for(int i=0; i<field.size(); i++){
     field.get(i).move();
     field.get(i).show();
     field.get(i).setDirectionX(-ghost.getDirectionX());
     field.get(i).setDirectionY(-ghost.getDirectionY());
     distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300);
-    if(magazine.size()>0){
-    //distance2 = Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX());
-    }
+    //if(magazine.size()>0){
+    //  distance2 = Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX());
+    //}
     if(distance<20 ){    //|| distance2<10                //removing asteroids on contact
       field.remove(i);
       i--;
@@ -73,18 +74,18 @@ public void draw()
     field.get(i).setDirectionX(-ghost.getDirectionX());
     field.get(i).setDirectionY(-ghost.getDirectionY());
   }*/
-/*  for(int i=0; i<magazine.size(); i++){
+  for(int i=0; i<magazine.size(); i++){
     magazine.get(i).move();
     magazine.get(i).show();
-      dRadians = ghost.getPointDirection()*(Math.PI/180);
-      myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
-      myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
-    /*distance2 =  Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX()); 
-    if(distance2<5){                    //removing asteroids on contact
+      //dRadians = ghost.getPointDirection()*(Math.PI/180);
+      //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+      //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+    distance2 =  Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX()); 
+    if(distance2<5|| magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600 ||magazine.get(i).getY()>600){                    //removing asteroids on contact
       magazine.remove(i);
       i--; 
-    }/
-  }*/
+    }
+  }
 
   flyer.show();
   flyer.setDirectionY(0);
