@@ -7,8 +7,7 @@ ArrayList <Asteroids> field = new ArrayList <Asteroids>();
 ArrayList <Bullet > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 0;
 public boolean counterAsteroid;
-public double distance;
-public double distance2;
+public double distance, distance2;
 
 public void setup() 
 {
@@ -26,13 +25,10 @@ public void setup()
     field[i].setX((int)(Math.random()*560)+20);
     field[i].setY((int)(Math.random()*560)+20);
   }*/
-  for(int i=0; i<40; i++){
-    field.add((i), new Asteroids());
-    field.get(i).setX((int)(Math.random()*560)+20);
-    field.get(i).setY((int)(Math.random()*560)+20);
-    if(counterAsteroid==true){
-      field.add((i), new Asteroids());
-    }
+  for(int a=0; a<50; a++){
+    field.add((a), new Asteroids());
+    field.get(a).setX((int)(Math.random()*560)+20);
+    field.get(a).setY((int)(Math.random()*560)+20);
   }
   /*for(int i=0; i<0; i++){
     magazine.add((i), new Bullet());
@@ -50,23 +46,19 @@ public void draw()
     night[i].move();
     night[i].show();
   }
-
-  for(int i=0; i<field.size(); i++){
-    field.get(i).move();
-    field.get(i).show();
-    field.get(i).setDirectionX(-ghost.getDirectionX());
-    field.get(i).setDirectionY(-ghost.getDirectionY());
-    distance =  Math.hypot(field.get(i).getX()-300, field.get(i).getY()-300);
-    //if(magazine.size()>0){
-    //  distance2 = Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX());
-    //}
-    if(distance<20 ){    //|| distance2<10                //removing asteroids on contact
-      field.remove(i);
-      i--;
+  for(int a=0; a<field.size(); a++){
+    field.get(a).move();
+    field.get(a).show();
+    field.get(a).setDirectionX(-ghost.getDirectionX());
+    field.get(a).setDirectionY(-ghost.getDirectionY());
+    distance =  Math.hypot(field.get(a).getX()-300, field.get(a).getY()-300);
+    if(distance<8){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
+      field.remove(a);
+      a--;
     }
-    /*if(counterAsteroid==true){
-      field.add((i), new Asteroids);
-    }*/
+    //if(counterAsteroid==true){
+    //  field.add((i), new Asteroids);
+    //}
   }
   /*for(int i=0; i<field.size(); i++){
     field.get(i).move();
@@ -80,10 +72,20 @@ public void draw()
       //dRadians = ghost.getPointDirection()*(Math.PI/180);
       //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
       //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
-    distance2 =  Math.hypot(field.get(i).getX()-magazine.get(i).getX(), field.get(i).getY()-magazine.get(i).getX()); 
-    if(distance2<5|| magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600 ||magazine.get(i).getY()>600){                    //removing asteroids on contact
+    if(magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600|| magazine.get(i).getY()>600){                    //removing asteroids on contact
       magazine.remove(i);
       i--; 
+    }
+  }
+  for(int i=0; i< magazine.size(); i++){
+    for(int a=0; a<field.size(); a++){
+      distance2 =  Math.hypot(field.get(a).getX()- magazine.get(i).getX(), field.get(a).getY()-magazine.get(i).getY());
+      if(distance2<8){
+        magazine.remove(i);
+        i--;
+        field.remove(a);
+        i--;
+      }
     }
   }
 
@@ -94,7 +96,10 @@ public void draw()
   //ghost.show();
   ghost.move();
 
-  if (asteroidSpawn==180){
+  if(counterAsteroid==true){
+    field.add( (int)(Math.random()*40), new Asteroids());
+  }
+  if (asteroidSpawn==60){
         counterAsteroid=true;
     }else if(asteroidSpawn==0){
         counterAsteroid=false;
