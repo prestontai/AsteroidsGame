@@ -5,8 +5,7 @@ Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
 ArrayList <Asteroids> field = new ArrayList <Asteroids>();
 ArrayList <Bullet > magazine = new ArrayList <Bullet>();
-public int asteroidSpawn = 0;
-public boolean counterAsteroid;
+public int asteroidSpawn = 120;
 public double distance, distance2;
 
 public void setup() 
@@ -26,9 +25,9 @@ public void setup()
     field[i].setY((int)(Math.random()*560)+20);
   }*/
   for(int a=0; a<50; a++){
-    field.add((a), new Asteroids());
-    field.get(a).setX((int)(Math.random()*560)+20);
-    field.get(a).setY((int)(Math.random()*560)+20);
+     field.add((a), new Asteroids());
+     field.get(a).setX((int)(Math.random()*560)+20);
+     field.get(a).setY((int)(Math.random()*560)+20);
   }
   /*for(int i=0; i<0; i++){
     magazine.add((i), new Bullet());
@@ -52,7 +51,7 @@ public void draw()
     field.get(a).setDirectionX(-ghost.getDirectionX());
     field.get(a).setDirectionY(-ghost.getDirectionY());
     distance =  Math.hypot(field.get(a).getX()-300, field.get(a).getY()-300);
-    if(distance<8){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
+    if(distance<18){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
       field.remove(a);
       a--;
     }
@@ -77,10 +76,10 @@ public void draw()
       i--; 
     }
   }
-  for(int i=0; i< magazine.size(); i++){
-    for(int a=0; a<field.size(); a++){
-      distance2 =  Math.hypot(field.get(a).getX()- magazine.get(i).getX(), field.get(a).getY()-magazine.get(i).getY());
-      if(distance2<8){
+  for(int a=0; a<field.size(); a++){
+    for(int i=1; i< magazine.size(); i++){
+      distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
+      if(distance2<10){
         magazine.remove(i);
         i--;
         field.remove(a);
@@ -96,19 +95,21 @@ public void draw()
   //ghost.show();
   ghost.move();
 
-  if(counterAsteroid==true){
-    field.add( (int)(Math.random()*40), new Asteroids());
+  if(asteroidSpawn==60){ //spawning 1 asteroid/second
+    field.add((0), new Asteroids());
+    field.get(0).setX((int)(Math.random()*560)+20);
+    field.get(0).setY((int)(Math.random()*560)+20);
+    asteroidSpawn = 120;
   }
-  if (asteroidSpawn==60){
-        counterAsteroid=true;
-    }else if(asteroidSpawn==0){
-        counterAsteroid=false;
+  if(asteroidSpawn>60){
+    asteroidSpawn--;
   }
-  if(counterAsteroid==true){
-      asteroidSpawn--;
-    }else{
-      asteroidSpawn++;
-  } 
+  text(magazine.size(), mouseX, mouseY); //debugging.  # of asteroids
+  if (keyPressed) {
+    if (key == 'b' ) {  //laser
+      magazine.add(0, new Bullet());
+    }
+  }
 }
 
 public void keyPressed(){
