@@ -7,6 +7,8 @@ ArrayList <Asteroids> field = new ArrayList <Asteroids>();
 ArrayList <Bullet > magazine = new ArrayList <Bullet>();
 public int asteroidSpawn = 120;
 public double distance, distance2;
+public int collision = 0;
+public int fired = 0;
 
 public void setup() 
 {
@@ -40,74 +42,98 @@ public void setup()
 public void draw() 
 {
   //your code here
-  background(0); 
+  background(0);
   for(int i=0; i<night.length; i++){
-    night[i].move();
-    night[i].show();
+      night[i].move();
+      night[i].show();
   }
-  for(int a=0; a<field.size(); a++){
-    field.get(a).move();
-    field.get(a).show();
-    field.get(a).setDirectionX(-ghost.getDirectionX());
-    field.get(a).setDirectionY(-ghost.getDirectionY());
-    distance =  Math.hypot(field.get(a).getX()-300, field.get(a).getY()-300);
-    if(distance<18){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
-      field.remove(a);
-      a--;
+  if (collision>2){
+    textSize(70);
+    text("GAME OVER", 100, 200);
+    text("SCORE:" + (fired - collision), 100, 400 );
+  }else {
+    background(0);
+    for(int i=0; i<night.length; i++){
+      night[i].move();
+      night[i].show();
     }
-    //if(counterAsteroid==true){
-    //  field.add((i), new Asteroids);
-    //}
-  }
-  /*for(int i=0; i<field.size(); i++){
-    field.get(i).move();
-    field.get(i).show();
-    field.get(i).setDirectionX(-ghost.getDirectionX());
-    field.get(i).setDirectionY(-ghost.getDirectionY());
-  }*/
-  for(int i=0; i<magazine.size(); i++){
-    magazine.get(i).move();
-    magazine.get(i).show();
-      //dRadians = ghost.getPointDirection()*(Math.PI/180);
-      //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
-      //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
-    if(magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600|| magazine.get(i).getY()>600){                    //removing asteroids on contact
-      magazine.remove(i);
-      i--; 
-    }
-  }
-  for(int a=0; a<field.size(); a++){
-    for(int i=1; i< magazine.size(); i++){
-      distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
-      if(distance2<10){
-        magazine.remove(i);
-        i--;
+    for(int a=0; a<field.size(); a++){
+      field.get(a).move();
+      field.get(a).show();
+      field.get(a).setDirectionX(-ghost.getDirectionX());
+      field.get(a).setDirectionY(-ghost.getDirectionY());
+      distance =  Math.hypot(field.get(a).getX()-300, field.get(a).getY()-300);
+      if(distance<18){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
         field.remove(a);
-        i--;
+        a--;
+        collision ++;
+      }
+      //if(counterAsteroid==true){
+      //  field.add((i), new Asteroids);
+      //}
+    }
+    textSize(20);
+    text(collision, 30, 30);
+    text(fired, 70, 30);
+    /*for(int i=0; i<field.size(); i++){
+      field.get(i).move();
+      field.get(i).show();
+      field.get(i).setDirectionX(-ghost.getDirectionX());
+      field.get(i).setDirectionY(-ghost.getDirectionY());
+    }*/
+    for(int i=0; i<magazine.size(); i++){
+      magazine.get(i).move();
+      magazine.get(i).show();
+        //dRadians = ghost.getPointDirection()*(Math.PI/180);
+        //myDirectionX = 5 * Math.cos(dRadians) + ghost.getDirectionX();
+        //myDirectionY = 5 * Math.sin(dRadians) + ghost.getDirectionY();
+      if(magazine.get(i).getX()<0 ||magazine.get(i).getY()<0||magazine.get(i).getX()>600|| magazine.get(i).getY()>600){                    //removing asteroids on contact
+        magazine.remove(i);
+        i--; 
       }
     }
-  }
+    for(int i=magazine.size(); i==0; i--){
+      for(int a=field.size(); a==0; a--){
+      distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
+      if(distance2<10){
+        field.remove(a);
+        a--;
+        magazine.remove(i);
+        i--;
+        fired ++;
+        }
+      }
+    }
+       
 
-  flyer.show();
-  flyer.setDirectionY(0);
-  flyer.setDirectionX(0);
-  flyer.move();
-  //ghost.show();
-  ghost.move();
+    flyer.show();
+    flyer.setDirectionY(0);
+    flyer.setDirectionX(0);
+    flyer.move();
+    //ghost.show();
+    ghost.move();
 
-  if(asteroidSpawn==60){ //spawning 1 asteroid/second
-    field.add((0), new Asteroids());
-    field.get(0).setX((int)(Math.random()*560)+20);
-    field.get(0).setY((int)(Math.random()*560)+20);
-    asteroidSpawn = 120;
-  }
-  if(asteroidSpawn>60){
-    asteroidSpawn--;
-  }
-  text(magazine.size(), mouseX, mouseY); //debugging.  # of asteroids
-  if (keyPressed) {
-    if (key == 'b' ) {  //laser
-      magazine.add(0, new Bullet());
+    if(asteroidSpawn==60){ //spawning 1 asteroid/second
+      field.add((0), new Asteroids());
+      field.get(0).setX((int)(Math.random()*560)+20);
+      field.get(0).setY((int)(Math.random()*560)+20);
+      asteroidSpawn = 120;
+    }
+    if(asteroidSpawn>60){
+      asteroidSpawn--;
+    }
+    //text(magazine.size(), mouseX, mouseY); //debugging.  # of bullets
+    if (keyPressed) {
+      if (key == 'b' ) {  //laser
+        magazine.add(0, new Bullet());
+      }
+      if (key == 'a'){
+         ghost.rotate(-7);
+         flyer.rotate(-7);
+      }else if(key =='d'){
+         ghost.rotate(7);
+         flyer.rotate(7);
+      }
     }
   }
 }
@@ -119,19 +145,19 @@ public void keyPressed(){
   }
   else if(keyCode==83)
     ghost.accelerate(-.5);
-  if(keyCode==65){ //a
+  /*if(keyCode==65){ //a
     ghost.rotate(-7);
     flyer.rotate(-7);
   }
   if(keyCode==68){//d
     ghost.rotate(7);
     flyer.rotate(7); 
-  }
+  }*/
   if(keyCode==90){ //z
     flyer.rotate(180);
     ghost.rotate(180);
   }
-  if(keyCode == 70){  //f
+  if(keyCode == 82){  //r
     /*flyer.setX((int)(Math.random()*360)+20);
     flyer.setY((int)(Math.random()*360)+20);
     flyer.setDirectionX(0);
@@ -139,7 +165,7 @@ public void keyPressed(){
     flyer.setPointDirection((int)(Math.random()*360));*/
     ghost.accelerate(20);
   }
-  if(keyCode == 71){  //g  sudden stop
+  if(keyCode == 70){  //f  sudden stop
     ghost.setDirectionX(0);
     ghost.setDirectionY(0);
   }
