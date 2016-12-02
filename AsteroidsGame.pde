@@ -9,6 +9,7 @@ public int asteroidSpawn = 120;
 public double distance, distance2;
 public int collision = 0;
 public int fired = 0;
+public boolean hard = false;
 
 public void setup() 
 {
@@ -43,12 +44,13 @@ public void draw()
 {
   //your code here
   background(0);
-  for(int i=0; i<night.length; i++){
+  if (collision>30){
+    for(int i=0; i<night.length; i++){
       night[i].move();
       night[i].show();
-  }
-  if (collision>2){
+    }
     textSize(70);
+    fill(255,70,0);
     text("GAME OVER", 100, 200);
     text("SCORE:" + (fired - collision), 100, 400 );
   }else {
@@ -92,20 +94,20 @@ public void draw()
         i--; 
       }
     }
-    for(int i=magazine.size(); i==0; i--){
-      for(int a=field.size(); a==0; a--){
-      distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
-      if(distance2<10){
-        field.remove(a);
-        a--;
-        magazine.remove(i);
-        i--;
-        fired ++;
+    for(int a=0; a<field.size(); a++){
+      for(int i=0; i<magazine.size(); i++){
+        distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
+        if(distance2<10){
+          field.remove(a);
+          a--;
+          magazine.remove(i);
+          i--;
+          fired ++;
+          break;
         }
-      }
+      } 
     }
-       
-
+    
     flyer.show();
     flyer.setDirectionY(0);
     flyer.setDirectionX(0);
@@ -113,11 +115,16 @@ public void draw()
     //ghost.show();
     ghost.move();
 
-    if(asteroidSpawn==60){ //spawning 1 asteroid/second
+    if(hard == false && asteroidSpawn==60){ //spawning 1 asteroid/second
       field.add((0), new Asteroids());
       field.get(0).setX((int)(Math.random()*560)+20);
       field.get(0).setY((int)(Math.random()*560)+20);
       asteroidSpawn = 120;
+    }else if(hard==true&&asteroidSpawn==60){
+      field.add((0), new Asteroids());
+      field.get(0).setX((int)(Math.random()*560)+20);
+      field.get(0).setY((int)(Math.random()*560)+20);
+      asteroidSpawn = 65;
     }
     if(asteroidSpawn>60){
       asteroidSpawn--;
@@ -171,6 +178,9 @@ public void keyPressed(){
   }
   if(keyCode == 32){  //spacebar shoot bullets
     magazine.add(0, new Bullet());
+  }
+  if(keyCode == 72){
+    hard = true;
   }
 }
 
