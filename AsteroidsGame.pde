@@ -10,6 +10,11 @@ public double distance, distance2;
 public int collision = 0;
 public int fired = 0;
 public boolean hard = false;
+public int levels = 1;
+public int collisionLevel = 0;
+public double multiplierX=0;
+public double multiplierY=0;
+public int superweapon= 0;
 
 public void setup() 
 {
@@ -44,7 +49,7 @@ public void draw()
 {
   //your code here
   background(0);
-  if (collision>30){
+  if (collision>10){
     for(int i=0; i<night.length; i++){
       night[i].move();
       night[i].show();
@@ -62,8 +67,18 @@ public void draw()
     for(int a=0; a<field.size(); a++){
       field.get(a).move();
       field.get(a).show();
-      field.get(a).setDirectionX(-ghost.getDirectionX());
-      field.get(a).setDirectionY(-ghost.getDirectionY());
+      if(field.get(a).getX()<300){
+        multiplierX=.1;
+      }else{
+        multiplierX=-.1;
+      }
+      if(field.get(a).getY()<300){
+        multiplierY=.1;
+      }else{
+        multiplierY=-.1;
+      }
+      field.get(a).setDirectionX(-ghost.getDirectionX()+multiplierX*levels);//(int)((Math.random()*multiplierX)-2));
+      field.get(a).setDirectionY(-ghost.getDirectionY()+multiplierY*levels);//(int)((Math.random()*levels*2)-2));
       distance =  Math.hypot(field.get(a).getX()-300, field.get(a).getY()-300);
       if(distance<18){ // distance2<8){    //|| distance2<10                //removing asteroids on contact
         field.remove(a);
@@ -74,6 +89,16 @@ public void draw()
       //  field.add((i), new Asteroids);
       //}
     }
+
+    superweapon++;
+    ellipse(300,300, )
+
+
+    collisionLevel = collision%16;
+    if(collisionLevel==15){ //level adder
+      collisionLevel=0;
+      levels++;
+    }                                                                                                        
     textSize(20);
     text(collision, 30, 30);
     text(fired, 70, 30);
@@ -119,7 +144,7 @@ public void draw()
       field.add((0), new Asteroids());
       field.get(0).setX((int)(Math.random()*560)+20);
       field.get(0).setY((int)(Math.random()*560)+20);
-      asteroidSpawn = 120;
+      asteroidSpawn = 90-(levels*4);
     }else if(hard==true&&asteroidSpawn==60){
       field.add((0), new Asteroids());
       field.get(0).setX((int)(Math.random()*560)+20);
