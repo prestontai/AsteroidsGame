@@ -90,8 +90,10 @@ public void draw()
       //}
     }
 
+    noFill();
+    stroke(200,200,200);
     superweapon++;
-    ellipse(300,300, )
+    ellipse(300,300, superweapon, superweapon);
 
 
     collisionLevel = collision%16;
@@ -122,6 +124,7 @@ public void draw()
     for(int a=0; a<field.size(); a++){
       for(int i=0; i<magazine.size(); i++){
         distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
+
         if(distance2<10){
           field.remove(a);
           a--;
@@ -165,6 +168,9 @@ public void draw()
       }else if(key =='d'){
          ghost.rotate(7);
          flyer.rotate(7);
+      }
+      if(key == 'p'){
+        superweapon=0;
       }
     }
   }
