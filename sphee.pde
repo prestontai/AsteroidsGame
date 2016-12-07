@@ -1,4 +1,4 @@
-public class Sphee {
+/*public class Sphee {
    public Sphee(double x, double y) {
   		noFill();
     	stroke(200,200,200);
@@ -10,4 +10,4 @@ public class Sphee {
    		y++;
    		ellispe(300,300, x, y);
    }
-}
+}*/

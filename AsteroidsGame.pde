@@ -5,7 +5,7 @@ Star [] night = new Star[400];
 //Asteroids [] field = new Asteroids[35];
 ArrayList <Asteroids> field = new ArrayList <Asteroids>();
 ArrayList <Bullet > magazine = new ArrayList <Bullet>();
-Sphee balls = new Sphee(x,y);
+//Sphee balls = new Sphee();
 public int asteroidSpawn = 120;
 public double distance, distance2;
 public int collision = 0;
@@ -91,7 +91,7 @@ public void draw()
     }
 
     //superweapon++;
-    balls.move();
+    //balls.move();
 
     collisionLevel = collision%16;
     if(collisionLevel==15){ //level adder
@@ -121,10 +121,10 @@ public void draw()
     for(int a=0; a<field.size(); a++){
       for(int i=0; i<magazine.size(); i++){
         distance2 =  Math.hypot(magazine.get(i).getX()- field.get(a).getX(),magazine.get(i).getY()-field.get(a).getY());
-        if(Math.hypot(Sphee.x-field.get(a).getX(), Sphee.y-field.get(a).getY)){
+        /*if(Math.hypot(Sphee.x-field.get(a).getX(), Sphee.y-field.get(a).getY)){
             field.remove(a);
             a--;
-        }
+        }*/
         if(distance2<10){
           field.remove(a);
           a--;
@@ -170,7 +170,7 @@ public void draw()
          flyer.rotate(7);
       }
       if(key == 'p'){
-        new Sphee();
+        //new Sphee();
       }
     }
   }
